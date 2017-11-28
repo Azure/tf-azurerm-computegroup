@@ -1,3 +1,3 @@
-output "vmss_id"{
+output "vmss_id" {
   value = "${module.computegroup.vmss_id}"
 }
