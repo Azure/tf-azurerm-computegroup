@@ -13,3 +13,7 @@ jobs:
       install: true
       script:
       - docker run -v $PWD:/tf-test/module --rm microsoft/terraform-test rake -f ../Rakefile build
+    - stage: rake e2e
+      install: true
+      script:
+      - docker run -v $PWD:/tf-test/module -e ARM_CLIENT_ID -e ARM_TENANT_ID -e ARM_SUBSCRIPTION_ID -e ARM_CLIENT_SECRET -e ARM_TEST_LOCATION -e ARM_TEST_LOCATION_ALT --rm microsoft/terraform-test rake -f ../Rakefile e2e
