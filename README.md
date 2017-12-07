@@ -5,6 +5,8 @@ This Terraform module deploys a Virtual Machines Scale Set in Azure and opens th
 
 This module requires a network and loadbalancer to be provider separately. You can provision them with the "Azure/network/azurerm" and "Azure/loadbanacer/azurerm" modules.
 
+[![Build Status](https://travis-ci.org/Azure/terraform-azurerm-computegroup.svg?branch=master)](https://travis-ci.org/Azure/terraform-azurerm-computegroup)
+
 Usage
 -----
 
