@@ -14,7 +14,7 @@ Using the `vm_os_simple`:
 
 ```hcl 
 provider "azurerm" {
-  version = "~> 0.3"
+  version = "~> 1.0"
 }
 
 variable "resource_group_name" {
@@ -71,7 +71,7 @@ Using the `vm_os_publisher`, `vm_os_offer` and `vm_os_sku`
 ```hcl
 
 provider "azurerm" {
-  version = "~> 0.3"
+  version = "~> 1.0"
 }
 
 variable "resource_group_name" {
@@ -129,7 +129,7 @@ The module does not expose direct access to each node of the VM scale set for se
 
 ```hcl
 provider "azurerm" {
-  version = "~> 0.3"
+  version = "~> 1.0"
 }
 
 variable "resource_group_name" {
