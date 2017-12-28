@@ -98,7 +98,7 @@ variable "lb_port" {
 
 variable "cmd_extension" {
   description = "Command to be excuted by the custom script extension"
-  default     = ""
+  default     = "echo hello"
 }
 
 variable "tags" {
