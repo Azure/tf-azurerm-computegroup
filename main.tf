@@ -1,5 +1,5 @@
 provider "azurerm" {
-  version = "~> 0.3"
+  version = "~> 1.0"
 }
 
 module "os" {
@@ -79,7 +79,7 @@ resource "azurerm_virtual_machine_scale_set" "vm-linux" {
     name                 = "vmssextension"
     publisher            = "Microsoft.OSTCExtensions"
     type                 = "CustomScriptForLinux"
-    type_handler_version = "1.2"
+    type_handler_version = "1.5"
 
     settings = <<SETTINGS
     {
@@ -146,7 +146,7 @@ resource "azurerm_virtual_machine_scale_set" "vm-windows" {
     name                 = "vmssextension"
     publisher            = "Microsoft.Compute"
     type                 = "CustomScriptExtension"
-    type_handler_version = "1.8"
+    type_handler_version = "1.9"
 
     settings = <<SETTINGS
     {
