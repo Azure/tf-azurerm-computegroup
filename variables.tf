@@ -91,11 +91,6 @@ variable "load_balancer_backend_address_pool_ids" {
   description = "The id of the backend address pools of the loadbalancer to which the VM scale set is attached"
 }
 
-variable "lb_port" {
-  description = "Protocols to be used for lb health probes and rules. [frontend_port, protocol, backend_port]"
-  default     = {}
-}
-
 variable "cmd_extension" {
   description = "Command to be excuted by the custom script extension"
   default     = "echo hello"
