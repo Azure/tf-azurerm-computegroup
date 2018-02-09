@@ -1,4 +1,6 @@
 location = "West US 2"
-ssh_key = "~/.ssh/id_rsa.pub"
+ssh_key = "/tmp/id_rsa.pub"
 resource_group_name = "azure_compute_e2e"
 vm_os_simple = "UbuntuServer"
+vnet_subnet_id ="" 
+load_balancer_backend_address_pool_ids =""
