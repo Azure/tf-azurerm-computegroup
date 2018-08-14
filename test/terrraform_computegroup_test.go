@@ -1,8 +1,11 @@
 package test
 
 import (
+	"fmt"
 	"testing"
+	"time"
 
+	"github.com/gruntwork-io/terratest/modules/retry"
 	"github.com/gruntwork-io/terratest/modules/terraform"
 	"github.com/gruntwork-io/terratest/modules/test-structure"
 )
@@ -23,14 +26,12 @@ func TestTerraformComputegroup(t *testing.T) {
 		terraform.InitAndApply(t, terraformOptions)
 	})
 
-	// Check whether the length of output meets the requirement. In this case, we check whether there occurs a vmss.
+	// Check whether the compute group allows public HTTP request through load balancer
 	test_structure.RunTestStage(t, "validate", func() {
 		terraformOptions := test_structure.LoadTerraformOptions(t, fixtureFolder)
 
-		vmssID := terraform.Output(t, terraformOptions, "vmss_id")
-		if len(vmssID) <= 0 {
-			t.Fatal("Wrong output")
-		}
+		// Make sure we can send HTTP request to the server
+		testHTTPToServer(t, terraformOptions)
 	})
 
 	// At the end of the test, clean up any resources that were created
@@ -52,4 +53,34 @@ func configureTerraformOptions(t *testing.T, fixtureFolder string) *terraform.Op
 	}
 
 	return terraformOptions
+}
+
+func testHTTPToServer(t *testing.T, terraformOptions *terraform.Options) {
+	// Get the value of an output variable
+	publicIP := terraform.Output(t, terraformOptions, "public_ip_address")
+
+	// It can take a minute or so for the web server to boot up, so retry a few times
+	maxRetries := 15
+	timeBetweenRetries := 5 * time.Second
+	description := fmt.Sprintf("HTTP to %s", publicIP)
+
+	// Verify that we can send HTTP request
+	retry.DoWithRetry(t, description, maxRetries, timeBetweenRetries, func() (string, error) {
+		// Get HTTP response from server
+		response, err1 := getHTTPResponse(t, publicIP)
+		if err1 != nil {
+			return "", err1
+		}
+
+		// Check whether the content of HTTP response contains nginx
+		defer response.Body.Close()
+		substring := "nginx"
+		err2 := checkContents(t, response, substring)
+		if err2 != nil {
+			return "", err2
+		}
+		fmt.Printf("HTTP found %s.\n", substring)
+
+		return "", nil
+	})
 }
